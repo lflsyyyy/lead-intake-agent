@@ -1,0 +1,7 @@
+# gitleaks: the default rules, plus an allowlist for values that are fake by design.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Demo-only settings for the local Docker stack (mock services, no real keys)"
+paths = ['''docker\.env$''']
