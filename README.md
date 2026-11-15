@@ -12,7 +12,7 @@ It exists because the most common small-business automation request is "leads si
 * **Secured:** HMAC-signed webhook with a 5-minute replay window, per-email and per-IP rate limit, and a layered prompt-injection defence that ends in an output gate. Details in the [threat model](docs/threat-model.md).
 * **Measured:** 48 hand-labelled leads, two models, accuracy, confusion matrix, spam precision and recall, latency and cost per lead. See [AI accuracy](#ai-accuracy).
 
-**Video (3:29):** [docs/demo.mp4](docs/demo.mp4): one lead from the website form through the live pipeline, opened node by node in n8n, then the Telegram alert and the records in HubSpot.
+**Video:** [1-minute overview](docs/demo-short.mp4) · [full walkthrough, 3:29](docs/demo.mp4). One lead from the website form through the live pipeline, opened node by node in n8n, then the Telegram alert and the records in HubSpot.
 
 ![Intake workflow, a real execution](docs/intake-canvas.png)
 
