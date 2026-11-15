@@ -130,7 +130,7 @@ def mail_column(s, r, outbox, followups):
 
 def summarize(sent, rows, outbox, followups, hs_exists):
     """(table lines, hard failure count). Pure: everything it needs is passed in."""
-    fmt = "%-3s %-9s %-26s %-5s %-6s %-9s %-10s %-10s %-6s %-48s %s"
+    fmt = "%-3s %-9s %-27s %-5s %-6s %-9s %-13s %-13s %-6s %-48s %s"
     lines = [fmt % ("#", "expected", "email", "http", "fit", "status", "hs contact", "hs deal", "tg", "email", "check")]
     lines.append("-" * len(lines[0]))
     failures = 0
@@ -140,10 +140,10 @@ def summarize(sent, rows, outbox, followups, hs_exists):
         failures += bool([p for p in problems if not p.startswith("fit differs")])
         verdict = "ok" if not problems else ", ".join(problems)
         if s["expect"] == "duplicate":
-            lines.append(fmt % (s["n"], s["expect"], s["email"][:26], s["code"], "-", "duplicate", "-", "-", "-", "-",
+            lines.append(fmt % (s["n"], s["expect"], s["email"][:27], s["code"], "-", "duplicate", "-", "-", "-", "-",
                                 verdict))
             continue
-        lines.append(fmt % (s["n"], s["expect"], s["email"][:26], s["code"], r.get("fit") or "-", r.get("status", "?"),
+        lines.append(fmt % (s["n"], s["expect"], s["email"][:27], s["code"], r.get("fit") or "-", r.get("status", "?"),
                             r.get("contact_id") or "-", r.get("deal_id") or "-", r.get("telegram_message_id") or "-",
                             mail_column(s, r, outbox, followups), verdict))
     return lines, failures
