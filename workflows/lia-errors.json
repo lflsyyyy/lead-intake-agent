@@ -1,0 +1,560 @@
+{
+  "name": "LIA · Errors",
+  "nodes": [
+    {
+      "id": "2d19b2b8-b0f2-40ca-81ab-d6a87f4f8c79",
+      "name": "Error trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "deadf412-a1b1-4b35-8ead-21d634fb695d",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7f6e42cd-1724-4ee4-b601-a7b3bdf9910e",
+              "name": "llm_base_url",
+              "value": "https://api.groq.com/openai/v1",
+              "type": "string"
+            },
+            {
+              "id": "17314979-69f1-46aa-a810-35f3ba485a1f",
+              "name": "llm_model",
+              "value": "openai/gpt-oss-120b",
+              "type": "string"
+            },
+            {
+              "id": "4ee945b7-5ecf-4b92-b41c-ceb15b23d46b",
+              "name": "llm_reasoning_effort",
+              "value": "low",
+              "type": "string"
+            },
+            {
+              "id": "aac263cd-dd6a-444b-86ae-eca11e45ced5",
+              "name": "llm_fallback_base_url",
+              "value": "http://127.0.0.1:41220/v1",
+              "type": "string"
+            },
+            {
+              "id": "bd9c409a-3c28-49d2-8464-8b5d3b60c1b0",
+              "name": "llm_fallback_model",
+              "value": "haiku",
+              "type": "string"
+            },
+            {
+              "id": "ad26ce98-97c7-4c19-b019-d750486ebeb0",
+              "name": "hubspot_portal_id",
+              "value": "YOUR_PORTAL_ID",
+              "type": "string"
+            },
+            {
+              "id": "3da47632-8bd4-4eea-853d-39c4932801ed",
+              "name": "hubspot_ui_domain",
+              "value": "app.hubspot.com",
+              "type": "string"
+            },
+            {
+              "id": "ffe435f9-952a-4451-929b-a6ef88e676de",
+              "name": "telegram_chat_id",
+              "value": "YOUR_CHAT_ID",
+              "type": "string"
+            },
+            {
+              "id": "aeacdfaf-4cfe-43a9-9fc8-56edc3d8df9e",
+              "name": "mail_from",
+              "value": "Brightline Studio <hello@yourdomain.com>",
+              "type": "string"
+            },
+            {
+              "id": "60b907b3-4e79-4427-904f-0bac788c4c2b",
+              "name": "mail_reply_to",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "15f1709d-8f99-4f56-9e7c-d84b6a154d18",
+              "name": "real_inbox_regex",
+              "value": "^delivered(\\+[a-z0-9._-]+)?@resend\\.dev$",
+              "type": "string"
+            },
+            {
+              "id": "d929cf25-3342-41bf-a04f-d62bac84686d",
+              "name": "business_name",
+              "value": "Brightline Studio",
+              "type": "string"
+            },
+            {
+              "id": "7e29c564-0d25-42c3-a1e0-5d807a978501",
+              "name": "business_profile",
+              "value": "A small web and automation studio. We build marketing websites, Shopify stores, and workflow automation (n8n, CRM integrations) for small and mid-sized businesses. Typical projects are $3k-$30k; we do not do SEO link building, app store apps, or staff outsourcing.",
+              "type": "string"
+            },
+            {
+              "id": "cd5a7e8e-90c4-4121-adf0-ba2e719c0bb5",
+              "name": "sender_name",
+              "value": "Alex, Brightline Studio",
+              "type": "string"
+            },
+            {
+              "id": "1eae12f4-9c41-4c60-8be4-9c8659f3be2e",
+              "name": "dedupe_window_min",
+              "value": 10,
+              "type": "number"
+            },
+            {
+              "id": "1c97eb0a-f030-4684-8336-a060c335d204",
+              "name": "followup_days",
+              "value": "2,5",
+              "type": "string"
+            },
+            {
+              "id": "9e39edbb-9c9d-4834-9439-048ac2744a20",
+              "name": "followup_unit_ms",
+              "value": 86400000,
+              "type": "number"
+            },
+            {
+              "id": "bdb4cb27-b8f1-4401-88b6-4621361c6332",
+              "name": "n8n_api_url",
+              "value": "http://127.0.0.1:5678/api/v1",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      }
+    },
+    {
+      "id": "da22acc9-c2d5-4245-9196-0b712bb36bee",
+      "name": "Describe failure",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const e = $('Error trigger').first().json;\nreturn [{ json: {\n  workflow: e.workflow?.name || '', workflow_id: String(e.workflow?.id || ''),\n  node: e.execution?.lastNodeExecuted || e.execution?.error?.node?.name || e.trigger?.error?.node?.name || 'trigger',\n  error: String(e.execution?.error?.message || e.trigger?.error?.message || 'unknown error').slice(0, 1000),\n  execution_id: String(e.execution?.id || ''), execution_url: e.execution?.url || '',\n} }];"
+      }
+    },
+    {
+      "id": "97cd4e1e-2d7a-4d20-bd4b-ec345621f187",
+      "name": "n8n · fetch failed run",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput",
+      "position": [
+        720,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Config').first().json.n8n_api_url }}/executions/{{ $json.execution_id }}?includeData=true",
+        "options": {
+          "timeout": 30000
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "n8nApi"
+      },
+      "credentials": {
+        "n8nApi": {
+          "id": "REPLACE_ME",
+          "name": "LIA · n8n API"
+        }
+      }
+    },
+    {
+      "id": "105b85da-e28e-48f3-9923-13ad39b7c02a",
+      "name": "Extract payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// Pull the original trigger payload out of the failed execution so it can be replayed later.\nconst f = $('Describe failure').first().json;\nconst ex = $input.first().json || {};\nconst run = ex?.data?.resultData?.runData || {};\nconst out = n => run[n]?.[0]?.data?.main?.[0]?.[0]?.json;\nlet payload = null;\nif (out('Internal trigger')) payload = out('Internal trigger').payload ?? null;\nelse if (out('Lead webhook')) {\n  const w = out('Lead webhook');\n  payload = { ...(w.body || {}) };\n  for (const [k, v] of Object.entries(w.query || {})) if (k.startsWith('utm_') && !(k in payload)) payload[k] = v;\n} else if (out('Lead form')) {\n  const { submittedAt, formMode, ...fields } = out('Lead form');\n  payload = fields;\n}\nconst lead_id = out('Normalize & validate')?.lead_id || '';\nreturn [{ json: { ...f, lead_id, payload: payload ? JSON.stringify(payload) : '', replayable: !!payload } }];"
+      }
+    },
+    {
+      "id": "98895f8f-495f-4020-af2f-cc9afcab0c6e",
+      "name": "Save dead letter",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1200,
+        0
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "insert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "lia_dead_letter"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "workflow": "={{ $json.workflow }}",
+            "workflow_id": "={{ $json.workflow_id }}",
+            "node": "={{ $json.node }}",
+            "error": "={{ $json.error }}",
+            "execution_id": "={{ $json.execution_id }}",
+            "execution_url": "={{ $json.execution_url }}",
+            "lead_id": "={{ $json.lead_id }}",
+            "payload": "={{ $json.payload }}",
+            "status": "={{ $json.replayable ? 'new' : 'not_replayable' }}",
+            "attempts": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "workflow",
+              "displayName": "workflow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "workflow_id",
+              "displayName": "workflow_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "node",
+              "displayName": "node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "error",
+              "displayName": "error",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "execution_id",
+              "displayName": "execution_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "execution_url",
+              "displayName": "execution_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lead_id",
+              "displayName": "lead_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "payload",
+              "displayName": "payload",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "attempts",
+              "displayName": "attempts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "f00aad1e-e868-4beb-9d11-1859e67ce704",
+      "name": "Mark lead failed",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "alwaysOutputData": true,
+      "position": [
+        1440,
+        0
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "lia_leads"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "lead_id",
+              "condition": "eq",
+              "keyValue": "={{ $('Extract payload').first().json.lead_id || '-' }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "failed",
+            "note": "={{ 'failed at ' + $('Extract payload').first().json.node + ': ' + $('Extract payload').first().json.error.slice(0, 200) }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "note",
+              "displayName": "note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "2d5db1d3-3e91-4ed0-b77b-ffbd513f5829",
+      "name": "Compose alert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const d = $('Extract payload').first().json;\nconst dl = $('Save dead letter').first().json;\nconst esc = t => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nconst text = [\n  `⚠️ LIA failed at <b>${esc(d.node)}</b>: ${esc(d.error.slice(0, 300))}`,\n  `Workflow: ${esc(d.workflow)} · execution ${esc(d.execution_id)}`,\n  d.lead_id ? `Lead: ${esc(d.lead_id)}` : '',\n  `Dead letter #${dl.id}` + (d.replayable ? ': nothing is lost, run “LIA · Replay dead letters” to retry.' : '.'),\n].filter(Boolean).join('\\n');\nreturn [{ json: { text } }];"
+      }
+    },
+    {
+      "id": "4e9495c3-d3d3-49be-9f08-64fd32d838fb",
+      "name": "Telegram · alert owner",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000,
+      "position": [
+        1920,
+        0
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "sendMessage",
+        "chatId": "={{ $('Config').first().json.telegram_chat_id }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML",
+          "disable_web_page_preview": true
+        }
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "LIA · Telegram"
+        }
+      },
+      "webhookId": "b42d2aca-87e5-4830-aa0e-d11d6b0d1859"
+    },
+    {
+      "id": "7bcad830-ee09-4fce-990d-72768b89b522",
+      "name": "Note · LIA · Errors",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -260
+      ],
+      "parameters": {
+        "content": "## LIA · Errors\nError workflow of every LIA workflow. Failed run → original payload pulled from the execution → `lia_dead_letter` → lead marked failed → Telegram alert. Replay with **LIA · Replay dead letters**.",
+        "width": 700,
+        "height": 170,
+        "color": 3
+      }
+    }
+  ],
+  "connections": {
+    "Error trigger": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Describe failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Describe failure": {
+      "main": [
+        [
+          {
+            "node": "n8n · fetch failed run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n · fetch failed run": {
+      "main": [
+        [
+          {
+            "node": "Extract payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract payload": {
+      "main": [
+        [
+          {
+            "node": "Save dead letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save dead letter": {
+      "main": [
+        [
+          {
+            "node": "Mark lead failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark lead failed": {
+      "main": [
+        [
+          {
+            "node": "Compose alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose alert": {
+      "main": [
+        [
+          {
+            "node": "Telegram · alert owner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "timezone": "UTC",
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  }
+}

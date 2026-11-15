@@ -1,0 +1,984 @@
+{
+  "name": "LIA · Follow-ups",
+  "nodes": [
+    {
+      "id": "1f55534e-649c-4ff7-93c0-48fb096fd2d3",
+      "name": "Every 15 minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1b994c96-5fce-4757-9180-70c808ef65a3",
+      "name": "Run now",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        200
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "edc9e0e1-e18e-4968-a348-0ca9dc9aa338",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        100
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "700140b1-a5cd-403e-9fcc-05597298b9c6",
+              "name": "llm_base_url",
+              "value": "https://api.groq.com/openai/v1",
+              "type": "string"
+            },
+            {
+              "id": "d3ac27d0-f918-4e70-b9a9-5f477c091ead",
+              "name": "llm_model",
+              "value": "openai/gpt-oss-120b",
+              "type": "string"
+            },
+            {
+              "id": "ced44700-21ab-49ed-862a-0bd7be7e6489",
+              "name": "llm_reasoning_effort",
+              "value": "low",
+              "type": "string"
+            },
+            {
+              "id": "6a728677-c9ac-4513-8168-a829e590fa8a",
+              "name": "llm_fallback_base_url",
+              "value": "http://127.0.0.1:41220/v1",
+              "type": "string"
+            },
+            {
+              "id": "4eec3024-d3b9-4082-851d-c16a5d498bb0",
+              "name": "llm_fallback_model",
+              "value": "haiku",
+              "type": "string"
+            },
+            {
+              "id": "b9e85d1e-c71f-49b9-9ef1-87e38649e6b2",
+              "name": "hubspot_portal_id",
+              "value": "YOUR_PORTAL_ID",
+              "type": "string"
+            },
+            {
+              "id": "804685df-9b68-4ed4-8ee0-cd041a9d3996",
+              "name": "hubspot_ui_domain",
+              "value": "app.hubspot.com",
+              "type": "string"
+            },
+            {
+              "id": "e2c07f79-4216-4fe0-a0aa-f45395221d6e",
+              "name": "telegram_chat_id",
+              "value": "YOUR_CHAT_ID",
+              "type": "string"
+            },
+            {
+              "id": "d071963f-3046-4a12-931b-2f0a9e25620c",
+              "name": "mail_from",
+              "value": "Brightline Studio <hello@yourdomain.com>",
+              "type": "string"
+            },
+            {
+              "id": "f8a76f03-8d6c-43f4-8849-7ac2aecbfd3b",
+              "name": "mail_reply_to",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "0062a05e-b43c-42ae-9099-1fe06461ec39",
+              "name": "real_inbox_regex",
+              "value": "^delivered(\\+[a-z0-9._-]+)?@resend\\.dev$",
+              "type": "string"
+            },
+            {
+              "id": "be0229a4-039f-4348-99e5-cbc4715fc550",
+              "name": "business_name",
+              "value": "Brightline Studio",
+              "type": "string"
+            },
+            {
+              "id": "90a00f06-10a8-4373-bcb4-d0e1961528b4",
+              "name": "business_profile",
+              "value": "A small web and automation studio. We build marketing websites, Shopify stores, and workflow automation (n8n, CRM integrations) for small and mid-sized businesses. Typical projects are $3k-$30k; we do not do SEO link building, app store apps, or staff outsourcing.",
+              "type": "string"
+            },
+            {
+              "id": "61848d33-f0c4-4df4-8450-1df92a04a3af",
+              "name": "sender_name",
+              "value": "Alex, Brightline Studio",
+              "type": "string"
+            },
+            {
+              "id": "3fd42cec-81b3-4537-a074-977c9a859fcb",
+              "name": "dedupe_window_min",
+              "value": 10,
+              "type": "number"
+            },
+            {
+              "id": "72181635-d3e1-4cf5-9e6c-0f43a7c1ffef",
+              "name": "followup_days",
+              "value": "2,5",
+              "type": "string"
+            },
+            {
+              "id": "6e5c0100-08a6-4de0-aa6c-4a365ee8a5b4",
+              "name": "followup_unit_ms",
+              "value": 86400000,
+              "type": "number"
+            },
+            {
+              "id": "9d7676ac-fc3c-4cc5-bc5b-2d0efe1c3f1f",
+              "name": "n8n_api_url",
+              "value": "http://127.0.0.1:5678/api/v1",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      }
+    },
+    {
+      "id": "8e775e6c-a5a6-4db6-98f0-de55922ca863",
+      "name": "Get due follow-ups",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        100
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "lia_followups"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "status",
+              "condition": "eq",
+              "keyValue": "pending"
+            },
+            {
+              "keyName": "due_at",
+              "condition": "lte",
+              "keyValue": "={{ $now.toISO() }}"
+            }
+          ]
+        },
+        "returnAll": true,
+        "options": {}
+      }
+    },
+    {
+      "id": "832c2ea3-b70c-400a-a40e-2a42a929ce61",
+      "name": "HubSpot · read contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000,
+      "onError": "continueRegularOutput",
+      "position": [
+        720,
+        100
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.hubapi.com/crm/v3/objects/contacts/{{ $json.contact_id }}?properties=hs_lead_status,hs_sales_email_last_replied",
+        "options": {
+          "timeout": 30000
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "hubspotAppToken"
+      },
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "REPLACE_ME",
+          "name": "LIA · HubSpot"
+        }
+      }
+    },
+    {
+      "id": "f745024c-a20d-4831-a29e-5ea85ce23844",
+      "name": "Still waiting for a reply?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        100
+      ],
+      "parameters": {
+        "jsCode": "// Send only if nobody touched the lead: same HubSpot lead status as when we queued it, and no reply logged.\nconst due = $('Get due follow-ups').all();\nreturn $input.all().map((it, i) => {\n  const fu = due[i].json;\n  const props = it.json.properties || {};\n  const replied = props.hs_sales_email_last_replied && new Date(props.hs_sales_email_last_replied) > new Date(fu.createdAt);\n  const status = props.hs_lead_status || '';\n  const stop_reason = !it.json.id ? 'contact not found in HubSpot'\n    : replied ? 'lead replied'\n    : status !== fu.expected_status ? `lead status changed to ${status || 'empty'}` : '';\n  return { json: { ...fu, followup_id: String(fu.id), send: !stop_reason, stop_reason } };\n});"
+      }
+    },
+    {
+      "id": "4871c177-b1b0-4718-b44d-2a54aa540211",
+      "name": "Send it?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1200,
+        100
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a5a79415-35c3-4574-8e3c-f6fac815a8dd",
+              "leftValue": "={{ $json.send }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "720a7bef-7624-4b61-a4a5-42bfb1d79fae",
+      "name": "Write follow-up email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        0
+      ],
+      "parameters": {
+        "jsCode": "return $input.all().map(it => ({ json: { lead_id: it.json.lead_id, followup_id: it.json.followup_id,\n  contact_id: it.json.contact_id, kind: `follow-up #${it.json.step}`, to: it.json.email,\n  subject: it.json.subject, body: it.json.body } }));"
+      }
+    },
+    {
+      "id": "31883f26-c20a-4613-8d36-d706a9f9398c",
+      "name": "Mark follow-up stopped",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1440,
+        300
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "lia_followups"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.followup_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "stopped",
+            "note": "={{ $json.stop_reason }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "note",
+              "displayName": "note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "1f532bb7-a64e-42d3-b942-e5527a506277",
+      "name": "Save to lia_outbox",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1680,
+        0
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "insert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "lia_outbox"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "lead_id": "={{ $json.lead_id }}",
+            "followup_id": "={{ $json.followup_id }}",
+            "contact_id": "={{ $json.contact_id }}",
+            "kind": "={{ $json.kind }}",
+            "to": "={{ $json.to }}",
+            "subject": "={{ $json.subject }}",
+            "body": "={{ $json.body }}",
+            "delivered": false,
+            "created_at": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "lead_id",
+              "displayName": "lead_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "followup_id",
+              "displayName": "followup_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "contact_id",
+              "displayName": "contact_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "kind",
+              "displayName": "kind",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "to",
+              "displayName": "to",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "delivered",
+              "displayName": "delivered",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "date",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "e07fefd3-164a-4f36-83b8-fef9d033af78",
+      "name": "Real inbox? (safety rule)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1920,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5f578871-22a3-4eea-ae06-a6db9632fe47",
+              "leftValue": "={{ $json.to }}",
+              "rightValue": "={{ $('Config').first().json.real_inbox_regex }}",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "ffc73c8f-f533-49dc-a22d-4c19d6819010",
+      "name": "Resend · send email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000,
+      "position": [
+        2160,
+        -120
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "options": {
+          "timeout": 20000
+        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ from: $('Config').first().json.mail_from, to: [$json.to], subject: $json.subject, text: $json.body, reply_to: $('Config').first().json.mail_reply_to || undefined }) }}"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ME",
+          "name": "LIA · Resend"
+        }
+      }
+    },
+    {
+      "id": "61b9b55a-ddcd-4eec-82c1-92ff08419b10",
+      "name": "Mark delivered",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2400,
+        -120
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "lia_outbox"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Save to lia_outbox').item.json.id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "delivered": true,
+            "provider_id": "={{ $json.id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "delivered",
+              "displayName": "delivered",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "provider_id",
+              "displayName": "provider_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "e16c5819-db80-42e6-9371-c69ca8ea513d",
+      "name": "Sent + outbox",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2640,
+        100
+      ],
+      "parameters": {
+        "mode": "append"
+      }
+    },
+    {
+      "id": "dba62beb-ee5b-4182-a17b-58dd92755a80",
+      "name": "Mark follow-up sent",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2880,
+        100
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "lia_followups"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.followup_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "sent",
+            "sent_at": "={{ $now.toISO() }}",
+            "note": "={{ $json.delivered ? 'emailed' : 'outbox' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sent_at",
+              "displayName": "sent_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "date",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "note",
+              "displayName": "note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "8d4040f1-3f09-4bc8-8649-3629406a7ff2",
+      "name": "HubSpot · log follow-up",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000,
+      "position": [
+        3120,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/notes",
+        "options": {
+          "timeout": 30000
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "hubspotAppToken",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ properties: { hs_timestamp: $now.toISO(), hs_note_body: '<p><strong>Automatic follow-up #' + $json.step + '</strong> ' + ($json.note === 'emailed' ? 'sent' : 'saved to outbox') + ': ' + $json.subject + '</p>' }, associations: [{ to: { id: $json.contact_id }, types: [{ associationCategory: 'HUBSPOT_DEFINED', associationTypeId: 202 }] }] }) }}"
+      },
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "REPLACE_ME",
+          "name": "LIA · HubSpot"
+        }
+      }
+    },
+    {
+      "id": "6302847d-b001-42a8-9864-f15e2b63b6ca",
+      "name": "Compose follow-up alert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3360,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const esc = t => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nconst rows = $('Mark follow-up sent').all().map(i => i.json);\nconst lines = rows.map(r => `• #${r.step} → ${esc(r.name || r.email)}${r.company ? ' (' + esc(r.company) + ')' : ''}: ${r.note === 'emailed' ? 'sent' : 'saved to outbox'}`);\nreturn [{ json: { text: `↩️ <b>Follow-ups: ${rows.length}</b>\\n` + lines.join('\\n') } }];"
+      }
+    },
+    {
+      "id": "3e6d074e-9889-4c04-812b-8661acc2672a",
+      "name": "Telegram · follow-ups sent",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000,
+      "position": [
+        3600,
+        100
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "sendMessage",
+        "chatId": "={{ $('Config').first().json.telegram_chat_id }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML",
+          "disable_web_page_preview": true
+        }
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "LIA · Telegram"
+        }
+      },
+      "webhookId": "7582132d-ed81-4c90-8b86-34e0d4835ffc"
+    },
+    {
+      "id": "887f36a0-182b-4292-b22c-f541ea66fa99",
+      "name": "Note · LIA · Follow-ups",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -300
+      ],
+      "parameters": {
+        "content": "## LIA · Follow-ups\nEvery 15 min: pending follow-ups that are due → check the contact in HubSpot → if the lead status is unchanged and they have not replied, send (safety rule applies) and log a note; otherwise mark the follow-up stopped.\n`DEMO_FAST=1`: days become minutes, runs every minute.",
+        "width": 700,
+        "height": 190,
+        "color": 5
+      }
+    }
+  ],
+  "connections": {
+    "Run now": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Get due follow-ups",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get due follow-ups": {
+      "main": [
+        [
+          {
+            "node": "HubSpot · read contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HubSpot · read contact": {
+      "main": [
+        [
+          {
+            "node": "Still waiting for a reply?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Still waiting for a reply?": {
+      "main": [
+        [
+          {
+            "node": "Send it?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send it?": {
+      "main": [
+        [
+          {
+            "node": "Write follow-up email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark follow-up stopped",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write follow-up email": {
+      "main": [
+        [
+          {
+            "node": "Save to lia_outbox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to lia_outbox": {
+      "main": [
+        [
+          {
+            "node": "Real inbox? (safety rule)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Real inbox? (safety rule)": {
+      "main": [
+        [
+          {
+            "node": "Resend · send email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sent + outbox",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Resend · send email": {
+      "main": [
+        [
+          {
+            "node": "Mark delivered",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark delivered": {
+      "main": [
+        [
+          {
+            "node": "Sent + outbox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sent + outbox": {
+      "main": [
+        [
+          {
+            "node": "Mark follow-up sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark follow-up sent": {
+      "main": [
+        [
+          {
+            "node": "HubSpot · log follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HubSpot · log follow-up": {
+      "main": [
+        [
+          {
+            "node": "Compose follow-up alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose follow-up alert": {
+      "main": [
+        [
+          {
+            "node": "Telegram · follow-ups sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every 15 minutes": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "timezone": "UTC",
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "REPLACE_WITH_LIA_ERRORS_WORKFLOW_ID"
+  }
+}

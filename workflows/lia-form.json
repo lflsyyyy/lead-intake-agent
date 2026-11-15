@@ -1,0 +1,167 @@
+{
+  "name": "LIA · Form",
+  "nodes": [
+    {
+      "id": "6f30128a-6da4-47fc-a5a5-64096d00e289",
+      "name": "Lead form",
+      "webhookId": "lia-contact",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "formTitle": "Tell us about your project",
+        "formDescription": "We usually reply within one business hour.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Company"
+            },
+            {
+              "fieldLabel": "Website"
+            },
+            {
+              "fieldLabel": "Budget",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Not sure yet"
+                  },
+                  {
+                    "option": "Under $3k"
+                  },
+                  {
+                    "option": "$3k-$10k"
+                  },
+                  {
+                    "option": "$10k-$25k"
+                  },
+                  {
+                    "option": "$25k+"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Message",
+              "fieldType": "textarea",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "respondWithOptions": {
+            "values": {
+              "formSubmittedText": "Thanks! We got your message and will be in touch shortly."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "d5538de9-76d3-4d2e-baf9-6de547cddb5b",
+      "name": "To intake payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// n8n forms cannot share a workflow with \"Respond to Webhook\", so the form is a thin adapter into Intake.\nconst { submittedAt, formMode, ...fields } = $input.first().json;\nreturn [{ json: { channel: 'form', payload: { ...fields, source: 'website form' } } }];"
+      }
+    },
+    {
+      "id": "73a48690-3686-4972-bd3d-3c07b212c8b0",
+      "name": "Hand off to Intake",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "REPLACE_WITH_LIA_INTAKE_WORKFLOW_ID"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      }
+    },
+    {
+      "id": "22e982de-a1d3-476f-a67a-c5c958c3be19",
+      "name": "Note · LIA · Form",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -220
+      ],
+      "parameters": {
+        "content": "## LIA · Form\nHosted n8n form for demos and landing pages. Hands the submission to **LIA · Intake** (same pipeline as the webhook) and shows the thank-you page immediately.",
+        "width": 600,
+        "height": 150,
+        "color": 4
+      }
+    }
+  ],
+  "connections": {
+    "Lead form": {
+      "main": [
+        [
+          {
+            "node": "To intake payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "To intake payload": {
+      "main": [
+        [
+          {
+            "node": "Hand off to Intake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "timezone": "UTC",
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "REPLACE_WITH_LIA_ERRORS_WORKFLOW_ID"
+  }
+}

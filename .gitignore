@@ -1,0 +1,9 @@
+.env
+*.key
+*.token
+logs/
+bridge/.work/
+__pycache__/
+*.pyc
+node_modules/
+docs/_render/
