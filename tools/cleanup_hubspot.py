@@ -3,6 +3,7 @@
     python tools/cleanup_hubspot.py --dry-run   # show what would be deleted
     python tools/cleanup_hubspot.py             # delete contacts @example.com / @resend.dev + their deals and notes
     python tools/cleanup_hubspot.py --tables    # ...and empty the lia_* data tables in n8n
+    python tools/cleanup_hubspot.py --target docker --tables   # the same against the Docker stack
 
 Only contacts whose email domain is a reserved test domain are touched.
 """
@@ -16,21 +17,38 @@ TEST_DOMAINS = ("example.com", "resend.dev")
 TABLES = ("lia_leads", "lia_followups", "lia_outbox", "lia_dead_letter")
 
 
+def is_test_email(email):
+    """True only for addresses on a reserved test domain (exact domain match, no look-alikes)."""
+    e = (email or "").strip().lower()
+    if e.count("@") != 1:
+        return False
+    local, domain = e.split("@")
+    return bool(local) and domain in TEST_DOMAINS
+
+
+def search_body(after=None):
+    body = {"filterGroups": [{"filters": [{"propertyName": "hs_email_domain", "operator": "EQ", "value": d}]}
+                             for d in TEST_DOMAINS],
+            "properties": ["email"], "limit": 100}
+    if after:
+        body["after"] = after
+    return body
+
+
+def only_test_contacts(contacts):
+    return [c for c in contacts if is_test_email((c.get("properties") or {}).get("email"))]
+
+
 def test_contacts(hs):
     out, after = [], None
     while True:
-        body = {"filterGroups": [{"filters": [{"propertyName": "hs_email_domain", "operator": "EQ", "value": d}]}
-                                 for d in TEST_DOMAINS],
-                "properties": ["email"], "limit": 100}
-        if after:
-            body["after"] = after
-        res = hs("POST", "/crm/v3/objects/contacts/search", body)
+        res = hs("POST", "/crm/v3/objects/contacts/search", search_body(after))
         out += res.get("results", [])
         after = (res.get("paging") or {}).get("next", {}).get("after")
         if not after:
             break
     # belt and braces: never touch anything that is not on a test domain
-    return [c for c in out if (c["properties"].get("email") or "").lower().split("@")[-1] in TEST_DOMAINS]
+    return only_test_contacts(out)
 
 
 def associated(hs, cid, kind):
