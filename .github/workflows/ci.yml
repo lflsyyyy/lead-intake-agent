@@ -47,6 +47,32 @@ jobs:
       - name: Docker Compose file is valid
         run: docker compose config -q
 
+  docker-e2e:
+    name: Docker stack end to end (no keys)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # exactly the README quick start
+      - name: docker compose up -d
+        run: docker compose up -d
+      - name: python tools/build.py --target docker
+        run: python tools/build.py --target docker
+      - name: python tools/send_samples.py --target docker
+        run: python tools/send_samples.py --target docker
+      - name: Logs on failure
+        if: failure()
+        run: |
+          docker compose ps
+          docker compose logs --no-color --tail=400
+          curl -s http://localhost:8090/_state | head -c 20000 || true
+      - name: docker compose down -v
+        if: always()
+        run: docker compose down -v
+
   secrets:
     name: Secret scan (gitleaks)
     runs-on: ubuntu-latest
