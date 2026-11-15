@@ -1,0 +1,2 @@
+# empty LLM_API_KEY= followed by the next line's comment; the generic-api-key rule reads the comment as a key
+9c77373963557da34a88df2e0386d206a334a19c:.env.example:generic-api-key:11
