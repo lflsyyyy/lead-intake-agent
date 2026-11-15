@@ -1,9 +1,13 @@
 .env
 *.key
 *.token
+secrets/
+.docker/
 logs/
 bridge/.work/
 __pycache__/
 *.pyc
 node_modules/
 docs/_render/
+eval/results-*.json
+.pytest_cache/

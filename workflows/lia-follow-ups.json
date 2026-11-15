@@ -2,7 +2,7 @@
   "name": "LIA · Follow-ups",
   "nodes": [
     {
-      "id": "1f55534e-649c-4ff7-93c0-48fb096fd2d3",
+      "id": "fe45a05c-fb01-5098-ba3b-c5e90edcd96c",
       "name": "Every 15 minutes",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
@@ -22,7 +22,7 @@
       }
     },
     {
-      "id": "1b994c96-5fce-4757-9180-70c808ef65a3",
+      "id": "3012a795-d73d-560f-bac1-a3a274c7a9de",
       "name": "Run now",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
@@ -33,7 +33,7 @@
       "parameters": {}
     },
     {
-      "id": "edc9e0e1-e18e-4968-a348-0ca9dc9aa338",
+      "id": "c7ff6ecd-366c-5bf7-9341-aad10246e214",
       "name": "Config",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
@@ -46,111 +46,147 @@
         "assignments": {
           "assignments": [
             {
-              "id": "700140b1-a5cd-403e-9fcc-05597298b9c6",
+              "id": "27188db2-a060-582d-949f-4b7d93e595f1",
               "name": "llm_base_url",
               "value": "https://api.groq.com/openai/v1",
               "type": "string"
             },
             {
-              "id": "d3ac27d0-f918-4e70-b9a9-5f477c091ead",
+              "id": "7c80afb5-9c4a-5ca5-b24a-dc88cd181f42",
               "name": "llm_model",
               "value": "openai/gpt-oss-120b",
               "type": "string"
             },
             {
-              "id": "ced44700-21ab-49ed-862a-0bd7be7e6489",
+              "id": "1e3a1a9f-f354-51dc-b2bc-0ffc440cbdda",
               "name": "llm_reasoning_effort",
               "value": "low",
               "type": "string"
             },
             {
-              "id": "6a728677-c9ac-4513-8168-a829e590fa8a",
+              "id": "8bcd49dc-cee2-5c9b-bb50-34903a1f44e4",
               "name": "llm_fallback_base_url",
-              "value": "http://127.0.0.1:41220/v1",
+              "value": "https://api.openai.com/v1",
               "type": "string"
             },
             {
-              "id": "4eec3024-d3b9-4082-851d-c16a5d498bb0",
+              "id": "265e9ee8-fcb4-56f6-afff-7c9c49246a3e",
               "name": "llm_fallback_model",
-              "value": "haiku",
+              "value": "gpt-4o-mini",
               "type": "string"
             },
             {
-              "id": "b9e85d1e-c71f-49b9-9ef1-87e38649e6b2",
-              "name": "hubspot_portal_id",
-              "value": "YOUR_PORTAL_ID",
+              "id": "96caecd6-5556-5f21-9e46-5879af75da91",
+              "name": "hubspot_base_url",
+              "value": "https://api.hubapi.com",
               "type": "string"
             },
             {
-              "id": "804685df-9b68-4ed4-8ee0-cd041a9d3996",
-              "name": "hubspot_ui_domain",
-              "value": "app.hubspot.com",
+              "id": "f2c49e42-2c91-59bc-a823-136ac3c37713",
+              "name": "resend_base_url",
+              "value": "https://api.resend.com",
               "type": "string"
             },
             {
-              "id": "e2c07f79-4216-4fe0-a0aa-f45395221d6e",
-              "name": "telegram_chat_id",
-              "value": "YOUR_CHAT_ID",
-              "type": "string"
-            },
-            {
-              "id": "d071963f-3046-4a12-931b-2f0a9e25620c",
+              "id": "ed1e7a17-8a33-5a80-81db-99e4aed424d1",
               "name": "mail_from",
-              "value": "Brightline Studio <hello@yourdomain.com>",
+              "value": "Brightline Studio <noreply@example.com>",
               "type": "string"
             },
             {
-              "id": "f8a76f03-8d6c-43f4-8849-7ac2aecbfd3b",
+              "id": "f18e678a-d0c0-5378-845d-5cca37561698",
               "name": "mail_reply_to",
               "value": "",
               "type": "string"
             },
             {
-              "id": "0062a05e-b43c-42ae-9099-1fe06461ec39",
+              "id": "cf5f378c-c85b-5bfd-b7ff-1d161aa54ace",
               "name": "real_inbox_regex",
               "value": "^delivered(\\+[a-z0-9._-]+)?@resend\\.dev$",
               "type": "string"
             },
             {
-              "id": "be0229a4-039f-4348-99e5-cbc4715fc550",
+              "id": "8366a8cf-ab32-5632-8f38-5cd30b6f1039",
               "name": "business_name",
               "value": "Brightline Studio",
               "type": "string"
             },
             {
-              "id": "90a00f06-10a8-4373-bcb4-d0e1961528b4",
+              "id": "8d90ac71-77ca-519a-ba9e-9111f1a6b400",
               "name": "business_profile",
               "value": "A small web and automation studio. We build marketing websites, Shopify stores, and workflow automation (n8n, CRM integrations) for small and mid-sized businesses. Typical projects are $3k-$30k; we do not do SEO link building, app store apps, or staff outsourcing.",
               "type": "string"
             },
             {
-              "id": "61848d33-f0c4-4df4-8450-1df92a04a3af",
+              "id": "ab673eb1-fc5d-576e-951a-c36eb9e44958",
               "name": "sender_name",
               "value": "Alex, Brightline Studio",
               "type": "string"
             },
             {
-              "id": "3fd42cec-81b3-4537-a074-977c9a859fcb",
+              "id": "b28f21ff-f45b-50d9-91fe-cfc26c5e51cd",
               "name": "dedupe_window_min",
               "value": 10,
               "type": "number"
             },
             {
-              "id": "72181635-d3e1-4cf5-9e6c-0f43a7c1ffef",
+              "id": "4df5f323-9c83-55e1-a3a6-a2f5527c826e",
+              "name": "rate_limit_max",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "b3d76cab-b422-5dd9-9eea-4c341a7812ef",
+              "name": "rate_limit_window_min",
+              "value": 10,
+              "type": "number"
+            },
+            {
+              "id": "fe688e03-49fa-5ba1-b4f1-9395aa06362a",
+              "name": "webhook_auth",
+              "value": "hmac",
+              "type": "string"
+            },
+            {
+              "id": "816c5063-9a15-5867-8221-a927f45f442c",
+              "name": "signature_tolerance_s",
+              "value": 300,
+              "type": "number"
+            },
+            {
+              "id": "15d9a42c-5551-5e1f-8e69-112ebe868884",
+              "name": "link_allowlist",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "e55350e8-ee59-590e-a193-e8128258f204",
+              "name": "allowed_price_terms",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "7e686ced-1013-5780-8a5c-c762489557c5",
               "name": "followup_days",
               "value": "2,5",
               "type": "string"
             },
             {
-              "id": "6e5c0100-08a6-4de0-aa6c-4a365ee8a5b4",
+              "id": "997965cb-46da-5be9-88a5-14b8b00d826a",
               "name": "followup_unit_ms",
               "value": 86400000,
               "type": "number"
             },
             {
-              "id": "9d7676ac-fc3c-4cc5-bc5b-2d0efe1c3f1f",
+              "id": "4ad97b3a-601e-5f04-9387-c908bc9b4714",
               "name": "n8n_api_url",
               "value": "http://127.0.0.1:5678/api/v1",
+              "type": "string"
+            },
+            {
+              "id": "8ca8cb44-2b54-562f-b5d6-8f7278868be3",
+              "name": "owner_chat_sealed",
+              "value": "REPLACE_WITH_SEALED_CHAT_ID",
               "type": "string"
             }
           ]
@@ -160,7 +196,7 @@
       }
     },
     {
-      "id": "8e775e6c-a5a6-4db6-98f0-de55922ca863",
+      "id": "8bef12d2-d67d-502c-8081-5542f3487d23",
       "name": "Get due follow-ups",
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
@@ -196,7 +232,7 @@
       }
     },
     {
-      "id": "832c2ea3-b70c-400a-a40e-2a42a929ce61",
+      "id": "e83e2d82-5e24-59ea-ace6-fcfb63805654",
       "name": "HubSpot · read contact",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -210,7 +246,7 @@
       ],
       "parameters": {
         "method": "GET",
-        "url": "=https://api.hubapi.com/crm/v3/objects/contacts/{{ $json.contact_id }}?properties=hs_lead_status,hs_sales_email_last_replied",
+        "url": "={{ $('Config').first().json.hubspot_base_url }}/crm/v3/objects/contacts/{{ $json.contact_id }}?properties=hs_lead_status,hs_sales_email_last_replied",
         "options": {
           "timeout": 30000
         },
@@ -225,7 +261,7 @@
       }
     },
     {
-      "id": "f745024c-a20d-4831-a29e-5ea85ce23844",
+      "id": "33d76ee6-066c-53af-9bb2-15b3569751e1",
       "name": "Still waiting for a reply?",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -238,7 +274,7 @@
       }
     },
     {
-      "id": "4871c177-b1b0-4718-b44d-2a54aa540211",
+      "id": "e6aecba4-c924-53fa-b836-4ba52491085f",
       "name": "Send it?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
@@ -256,7 +292,7 @@
           },
           "conditions": [
             {
-              "id": "a5a79415-35c3-4574-8e3c-f6fac815a8dd",
+              "id": "70092789-1d15-5243-a0f6-5d8a667f2836",
               "leftValue": "={{ $json.send }}",
               "rightValue": "",
               "operator": {
@@ -272,7 +308,7 @@
       }
     },
     {
-      "id": "720a7bef-7624-4b61-a4a5-42bfb1d79fae",
+      "id": "c11a16df-2e10-5edd-89f1-92923ec709d2",
       "name": "Write follow-up email",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -285,7 +321,7 @@
       }
     },
     {
-      "id": "31883f26-c20a-4613-8d36-d706a9f9398c",
+      "id": "24b3726c-01be-54d8-94ca-d4612b688476",
       "name": "Mark follow-up stopped",
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
@@ -347,7 +383,7 @@
       }
     },
     {
-      "id": "1f532bb7-a64e-42d3-b942-e5527a506277",
+      "id": "e2721018-50bf-5589-b088-c97da8613174",
       "name": "Save to lia_outbox",
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
@@ -476,7 +512,7 @@
       }
     },
     {
-      "id": "e07fefd3-164a-4f36-83b8-fef9d033af78",
+      "id": "ec6d093e-8597-5d24-b386-6221762e3f5c",
       "name": "Real inbox? (safety rule)",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
@@ -494,7 +530,7 @@
           },
           "conditions": [
             {
-              "id": "5f578871-22a3-4eea-ae06-a6db9632fe47",
+              "id": "6c3a4a44-98b0-5d8a-a0cf-1ea3b1d223c4",
               "leftValue": "={{ $json.to }}",
               "rightValue": "={{ $('Config').first().json.real_inbox_regex }}",
               "operator": {
@@ -509,7 +545,7 @@
       }
     },
     {
-      "id": "ffc73c8f-f533-49dc-a22d-4c19d6819010",
+      "id": "b0d83095-c927-5e85-891e-76f32a732bf3",
       "name": "Resend · send email",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -522,25 +558,25 @@
       ],
       "parameters": {
         "method": "POST",
-        "url": "https://api.resend.com/emails",
+        "url": "={{ $('Config').first().json.resend_base_url }}/emails",
         "options": {
           "timeout": 20000
         },
         "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
+        "genericAuthType": "httpCustomAuth",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ from: $('Config').first().json.mail_from, to: [$json.to], subject: $json.subject, text: $json.body, reply_to: $('Config').first().json.mail_reply_to || undefined }) }}"
       },
       "credentials": {
-        "httpHeaderAuth": {
+        "httpCustomAuth": {
           "id": "REPLACE_ME",
           "name": "LIA · Resend"
         }
       }
     },
     {
-      "id": "61b9b55a-ddcd-4eec-82c1-92ff08419b10",
+      "id": "46358fd1-9262-55cb-9592-c1be2d34b04c",
       "name": "Mark delivered",
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
@@ -602,7 +638,7 @@
       }
     },
     {
-      "id": "e16c5819-db80-42e6-9371-c69ca8ea513d",
+      "id": "a8280961-4156-5cdf-bc7d-b9db44e7efc6",
       "name": "Sent + outbox",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
@@ -615,7 +651,7 @@
       }
     },
     {
-      "id": "dba62beb-ee5b-4182-a17b-58dd92755a80",
+      "id": "facbe8db-022f-59ca-b276-ca27913cb518",
       "name": "Mark follow-up sent",
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
@@ -688,7 +724,7 @@
       }
     },
     {
-      "id": "8d4040f1-3f09-4bc8-8649-3629406a7ff2",
+      "id": "e1932c26-d0a6-5b0b-804d-636644b4ad60",
       "name": "HubSpot · log follow-up",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -701,7 +737,7 @@
       ],
       "parameters": {
         "method": "POST",
-        "url": "https://api.hubapi.com/crm/v3/objects/notes",
+        "url": "={{ $('Config').first().json.hubspot_base_url }}/crm/v3/objects/notes",
         "options": {
           "timeout": 30000
         },
@@ -719,7 +755,7 @@
       }
     },
     {
-      "id": "6302847d-b001-42a8-9864-f15e2b63b6ca",
+      "id": "c271cae3-c544-53c0-9d5c-74b4b30c9cc6",
       "name": "Compose follow-up alert",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -732,7 +768,30 @@
       }
     },
     {
-      "id": "3e6d074e-9889-4c04-812b-8661acc2672a",
+      "id": "d3bacd1c-7f15-56ed-a48f-974826cc964f",
+      "name": "Unseal owner chat",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        3600,
+        100
+      ],
+      "parameters": {
+        "action": "decrypt",
+        "mode": "symmetric",
+        "cipher": "aes-256-gcm",
+        "value": "={{ $('Config').first().json.owner_chat_sealed }}",
+        "dataPropertyName": "owner_chat_id"
+      },
+      "credentials": {
+        "crypto": {
+          "id": "REPLACE_ME",
+          "name": "LIA · Private settings"
+        }
+      }
+    },
+    {
+      "id": "f2aced3d-1fc5-5af1-80dc-70835177e1b8",
       "name": "Telegram · follow-ups sent",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
@@ -740,13 +799,13 @@
       "maxTries": 3,
       "waitBetweenTries": 3000,
       "position": [
-        3600,
+        3840,
         100
       ],
       "parameters": {
         "resource": "message",
         "operation": "sendMessage",
-        "chatId": "={{ $('Config').first().json.telegram_chat_id }}",
+        "chatId": "={{ $json.owner_chat_id }}",
         "text": "={{ $json.text }}",
         "additionalFields": {
           "appendAttribution": false,
@@ -760,10 +819,10 @@
           "name": "LIA · Telegram"
         }
       },
-      "webhookId": "7582132d-ed81-4c90-8b86-34e0d4835ffc"
+      "webhookId": "ef531626-80ad-4585-852d-b7049ca30bc9"
     },
     {
-      "id": "887f36a0-182b-4292-b22c-f541ea66fa99",
+      "id": "5c245e8e-0451-51fc-b33f-5c19508e1b5f",
       "name": "Note · LIA · Follow-ups",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -949,6 +1008,17 @@
       ]
     },
     "Compose follow-up alert": {
+      "main": [
+        [
+          {
+            "node": "Unseal owner chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unseal owner chat": {
       "main": [
         [
           {

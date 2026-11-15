@@ -2,7 +2,7 @@
   "name": "LIA · Errors",
   "nodes": [
     {
-      "id": "2d19b2b8-b0f2-40ca-81ab-d6a87f4f8c79",
+      "id": "743b9e64-8f57-5fef-9671-5863d684f6d4",
       "name": "Error trigger",
       "type": "n8n-nodes-base.errorTrigger",
       "typeVersion": 1,
@@ -13,7 +13,7 @@
       "parameters": {}
     },
     {
-      "id": "deadf412-a1b1-4b35-8ead-21d634fb695d",
+      "id": "78532d1b-194f-5ec4-b2c3-fb8a425f1122",
       "name": "Config",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
@@ -26,111 +26,147 @@
         "assignments": {
           "assignments": [
             {
-              "id": "7f6e42cd-1724-4ee4-b601-a7b3bdf9910e",
+              "id": "27188db2-a060-582d-949f-4b7d93e595f1",
               "name": "llm_base_url",
               "value": "https://api.groq.com/openai/v1",
               "type": "string"
             },
             {
-              "id": "17314979-69f1-46aa-a810-35f3ba485a1f",
+              "id": "7c80afb5-9c4a-5ca5-b24a-dc88cd181f42",
               "name": "llm_model",
               "value": "openai/gpt-oss-120b",
               "type": "string"
             },
             {
-              "id": "4ee945b7-5ecf-4b92-b41c-ceb15b23d46b",
+              "id": "1e3a1a9f-f354-51dc-b2bc-0ffc440cbdda",
               "name": "llm_reasoning_effort",
               "value": "low",
               "type": "string"
             },
             {
-              "id": "aac263cd-dd6a-444b-86ae-eca11e45ced5",
+              "id": "8bcd49dc-cee2-5c9b-bb50-34903a1f44e4",
               "name": "llm_fallback_base_url",
-              "value": "http://127.0.0.1:41220/v1",
+              "value": "https://api.openai.com/v1",
               "type": "string"
             },
             {
-              "id": "bd9c409a-3c28-49d2-8464-8b5d3b60c1b0",
+              "id": "265e9ee8-fcb4-56f6-afff-7c9c49246a3e",
               "name": "llm_fallback_model",
-              "value": "haiku",
+              "value": "gpt-4o-mini",
               "type": "string"
             },
             {
-              "id": "ad26ce98-97c7-4c19-b019-d750486ebeb0",
-              "name": "hubspot_portal_id",
-              "value": "YOUR_PORTAL_ID",
+              "id": "96caecd6-5556-5f21-9e46-5879af75da91",
+              "name": "hubspot_base_url",
+              "value": "https://api.hubapi.com",
               "type": "string"
             },
             {
-              "id": "3da47632-8bd4-4eea-853d-39c4932801ed",
-              "name": "hubspot_ui_domain",
-              "value": "app.hubspot.com",
+              "id": "f2c49e42-2c91-59bc-a823-136ac3c37713",
+              "name": "resend_base_url",
+              "value": "https://api.resend.com",
               "type": "string"
             },
             {
-              "id": "ffe435f9-952a-4451-929b-a6ef88e676de",
-              "name": "telegram_chat_id",
-              "value": "YOUR_CHAT_ID",
-              "type": "string"
-            },
-            {
-              "id": "aeacdfaf-4cfe-43a9-9fc8-56edc3d8df9e",
+              "id": "ed1e7a17-8a33-5a80-81db-99e4aed424d1",
               "name": "mail_from",
-              "value": "Brightline Studio <hello@yourdomain.com>",
+              "value": "Brightline Studio <noreply@example.com>",
               "type": "string"
             },
             {
-              "id": "60b907b3-4e79-4427-904f-0bac788c4c2b",
+              "id": "f18e678a-d0c0-5378-845d-5cca37561698",
               "name": "mail_reply_to",
               "value": "",
               "type": "string"
             },
             {
-              "id": "15f1709d-8f99-4f56-9e7c-d84b6a154d18",
+              "id": "cf5f378c-c85b-5bfd-b7ff-1d161aa54ace",
               "name": "real_inbox_regex",
               "value": "^delivered(\\+[a-z0-9._-]+)?@resend\\.dev$",
               "type": "string"
             },
             {
-              "id": "d929cf25-3342-41bf-a04f-d62bac84686d",
+              "id": "8366a8cf-ab32-5632-8f38-5cd30b6f1039",
               "name": "business_name",
               "value": "Brightline Studio",
               "type": "string"
             },
             {
-              "id": "7e29c564-0d25-42c3-a1e0-5d807a978501",
+              "id": "8d90ac71-77ca-519a-ba9e-9111f1a6b400",
               "name": "business_profile",
               "value": "A small web and automation studio. We build marketing websites, Shopify stores, and workflow automation (n8n, CRM integrations) for small and mid-sized businesses. Typical projects are $3k-$30k; we do not do SEO link building, app store apps, or staff outsourcing.",
               "type": "string"
             },
             {
-              "id": "cd5a7e8e-90c4-4121-adf0-ba2e719c0bb5",
+              "id": "ab673eb1-fc5d-576e-951a-c36eb9e44958",
               "name": "sender_name",
               "value": "Alex, Brightline Studio",
               "type": "string"
             },
             {
-              "id": "1eae12f4-9c41-4c60-8be4-9c8659f3be2e",
+              "id": "b28f21ff-f45b-50d9-91fe-cfc26c5e51cd",
               "name": "dedupe_window_min",
               "value": 10,
               "type": "number"
             },
             {
-              "id": "1c97eb0a-f030-4684-8336-a060c335d204",
+              "id": "4df5f323-9c83-55e1-a3a6-a2f5527c826e",
+              "name": "rate_limit_max",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "b3d76cab-b422-5dd9-9eea-4c341a7812ef",
+              "name": "rate_limit_window_min",
+              "value": 10,
+              "type": "number"
+            },
+            {
+              "id": "fe688e03-49fa-5ba1-b4f1-9395aa06362a",
+              "name": "webhook_auth",
+              "value": "hmac",
+              "type": "string"
+            },
+            {
+              "id": "816c5063-9a15-5867-8221-a927f45f442c",
+              "name": "signature_tolerance_s",
+              "value": 300,
+              "type": "number"
+            },
+            {
+              "id": "15d9a42c-5551-5e1f-8e69-112ebe868884",
+              "name": "link_allowlist",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "e55350e8-ee59-590e-a193-e8128258f204",
+              "name": "allowed_price_terms",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "7e686ced-1013-5780-8a5c-c762489557c5",
               "name": "followup_days",
               "value": "2,5",
               "type": "string"
             },
             {
-              "id": "9e39edbb-9c9d-4834-9439-048ac2744a20",
+              "id": "997965cb-46da-5be9-88a5-14b8b00d826a",
               "name": "followup_unit_ms",
               "value": 86400000,
               "type": "number"
             },
             {
-              "id": "bdb4cb27-b8f1-4401-88b6-4621361c6332",
+              "id": "4ad97b3a-601e-5f04-9387-c908bc9b4714",
               "name": "n8n_api_url",
               "value": "http://127.0.0.1:5678/api/v1",
+              "type": "string"
+            },
+            {
+              "id": "8ca8cb44-2b54-562f-b5d6-8f7278868be3",
+              "name": "owner_chat_sealed",
+              "value": "REPLACE_WITH_SEALED_CHAT_ID",
               "type": "string"
             }
           ]
@@ -140,7 +176,7 @@
       }
     },
     {
-      "id": "da22acc9-c2d5-4245-9196-0b712bb36bee",
+      "id": "ca839949-6788-59b8-a135-1f7848ac7bba",
       "name": "Describe failure",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -153,7 +189,7 @@
       }
     },
     {
-      "id": "97cd4e1e-2d7a-4d20-bd4b-ec345621f187",
+      "id": "9dea2fe4-6bcb-5f6d-9a26-798a2ec02059",
       "name": "n8n · fetch failed run",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -182,7 +218,7 @@
       }
     },
     {
-      "id": "105b85da-e28e-48f3-9923-13ad39b7c02a",
+      "id": "aa46a652-94b2-5e97-ad38-52021d28f583",
       "name": "Extract payload",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -195,7 +231,7 @@
       }
     },
     {
-      "id": "98895f8f-495f-4020-af2f-cc9afcab0c6e",
+      "id": "008e19a9-c6f8-5f06-bfab-c5d17f656eb9",
       "name": "Save dead letter",
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
@@ -335,7 +371,7 @@
       }
     },
     {
-      "id": "f00aad1e-e868-4beb-9d11-1859e67ce704",
+      "id": "16518fd2-e196-55ad-a2e3-8993c7c40e62",
       "name": "Mark lead failed",
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
@@ -398,7 +434,7 @@
       }
     },
     {
-      "id": "2d5db1d3-3e91-4ed0-b77b-ffbd513f5829",
+      "id": "c5481def-ea76-50cc-a371-a7cd2179a8e0",
       "name": "Compose alert",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -411,7 +447,30 @@
       }
     },
     {
-      "id": "4e9495c3-d3d3-49be-9f08-64fd32d838fb",
+      "id": "2a9fab40-b500-52ae-8145-f625f8f958bb",
+      "name": "Unseal owner chat",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        0
+      ],
+      "parameters": {
+        "action": "decrypt",
+        "mode": "symmetric",
+        "cipher": "aes-256-gcm",
+        "value": "={{ $('Config').first().json.owner_chat_sealed }}",
+        "dataPropertyName": "owner_chat_id"
+      },
+      "credentials": {
+        "crypto": {
+          "id": "REPLACE_ME",
+          "name": "LIA · Private settings"
+        }
+      }
+    },
+    {
+      "id": "9bf3143f-67c5-5836-9cd3-1235cfbc87c9",
       "name": "Telegram · alert owner",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
@@ -419,13 +478,13 @@
       "maxTries": 3,
       "waitBetweenTries": 3000,
       "position": [
-        1920,
+        2160,
         0
       ],
       "parameters": {
         "resource": "message",
         "operation": "sendMessage",
-        "chatId": "={{ $('Config').first().json.telegram_chat_id }}",
+        "chatId": "={{ $json.owner_chat_id }}",
         "text": "={{ $json.text }}",
         "additionalFields": {
           "appendAttribution": false,
@@ -439,10 +498,10 @@
           "name": "LIA · Telegram"
         }
       },
-      "webhookId": "b42d2aca-87e5-4830-aa0e-d11d6b0d1859"
+      "webhookId": "576583fb-c6a1-49e8-8d44-5b398276bb7f"
     },
     {
-      "id": "7bcad830-ee09-4fce-990d-72768b89b522",
+      "id": "d1403c28-df7f-5257-bd75-711a0cfce61d",
       "name": "Note · LIA · Errors",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -537,6 +596,17 @@
       ]
     },
     "Compose alert": {
+      "main": [
+        [
+          {
+            "node": "Unseal owner chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unseal owner chat": {
       "main": [
         [
           {

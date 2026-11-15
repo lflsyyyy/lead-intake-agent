@@ -1,6 +1,10 @@
 """Shared helpers: .env loading, secrets, n8n / HubSpot REST clients (stdlib only)."""
+import hashlib
+import hmac
 import json
 import os
+import time
+import sys
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -8,9 +12,31 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+TARGETS = {"live": ".env", "docker": "docker.env"}
+
+
+def target():
+    """--target live|docker (default live) or --env-file PATH, from the command line."""
+    a = sys.argv
+    if "--env-file" in a:
+        return a[a.index("--env-file") + 1]
+    if "--target" in a:
+        t = a[a.index("--target") + 1]
+        if t not in TARGETS:
+            raise SystemExit("unknown --target %s (use %s)" % (t, " | ".join(TARGETS)))
+        return t
+    return os.environ.get("LIA_TARGET", "live")
+
+
 def load_env(path=None):
-    """Load KEY=VALUE lines from .env into os.environ (existing variables win)."""
-    path = path or os.path.join(ROOT, ".env")
+    """Load KEY=VALUE lines into os.environ (existing variables win).
+
+    The file is chosen by --target: live -> .env, docker -> docker.env (safe defaults for the
+    Docker stack, no real keys). --env-file PATH picks any other file.
+    """
+    t = target()
+    path = path or os.path.join(ROOT, TARGETS.get(t, t))
+    os.environ.setdefault("LIA_TARGET", t if t in TARGETS else "custom")
     if not os.path.exists(path):
         return
     for line in open(path, encoding="utf8"):
@@ -21,6 +47,8 @@ def load_env(path=None):
         k, v = k.strip(), v.strip()
         if len(v) >= 2 and v[0] == v[-1] and v[0] in "\"'":
             v = v[1:-1]
+        elif v.startswith("#"):                          # empty value followed by a comment
+            v = ""
         elif " #" in v:                                  # inline comment
             v = v.split(" #", 1)[0].strip()
         os.environ.setdefault(k, v)
@@ -61,6 +89,30 @@ def http(method, url, body=None, headers=None, timeout=60):
             return e.code, {"raw": raw[:500].decode("utf8", "replace")}
 
 
+def sign(secret_value, raw, ts=None):
+    """Headers for a signed webhook call: HMAC-SHA256 over "<timestamp>.<raw body>"."""
+    ts = str(int(time.time()) if ts is None else ts)
+    mac = hmac.new(secret_value.encode(), ts.encode() + b"." + raw, hashlib.sha256).hexdigest()
+    return {"X-Lead-Timestamp": ts, "X-Signature": "sha256=" + mac}
+
+
+def post_raw(url, raw, headers=None, timeout=30):
+    """POST exact bytes (the signature covers them) and return (status, parsed JSON)."""
+    h = {"Content-Type": "application/json", "Accept": "application/json"}
+    h.update(headers or {})
+    req = urllib.request.Request(url, data=raw, method="POST", headers=h)
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            body = r.read()
+            return r.status, (json.loads(body) if body else {})
+    except urllib.error.HTTPError as e:
+        body = e.read()
+        try:
+            return e.code, json.loads(body)
+        except ValueError:
+            return e.code, {"raw": body[:300].decode("utf8", "replace")}
+
+
 class N8n:
     def __init__(self):
         self.base = env("N8N_URL", "http://127.0.0.1:5678").rstrip("/")
@@ -94,13 +146,13 @@ class N8n:
 
 
 class HubSpot:
-    BASE = "https://api.hubapi.com"
-
     def __init__(self):
+        # tools run on the host; in Docker, n8n reaches the mock by service name but the host uses localhost
+        self.base = (env("HUBSPOT_TOOLS_URL") or env("HUBSPOT_BASE_URL") or "https://api.hubapi.com").rstrip("/")
         self.token = secret("HUBSPOT_TOKEN")
 
     def __call__(self, method, path, body=None, ok=(200, 201, 204, 207)):
-        code, res = http(method, self.BASE + path, body, {"Authorization": "Bearer " + self.token})
+        code, res = http(method, self.base + path, body, {"Authorization": "Bearer " + self.token})
         if code not in ok:
             raise RuntimeError("HubSpot %s %s -> %s %s" % (method, path, code, json.dumps(res)[:400]))
         return res

@@ -2,7 +2,7 @@
   "name": "LIA · Form",
   "nodes": [
     {
-      "id": "6f30128a-6da4-47fc-a5a5-64096d00e289",
+      "id": "3ccc5e92-93da-5b1c-9929-2ff7e73a344a",
       "name": "Lead form",
       "webhookId": "lia-contact",
       "type": "n8n-nodes-base.formTrigger",
@@ -58,6 +58,10 @@
               "fieldLabel": "Message",
               "fieldType": "textarea",
               "requiredField": true
+            },
+            {
+              "fieldType": "hiddenField",
+              "fieldName": "hp"
             }
           ]
         },
@@ -71,7 +75,7 @@
       }
     },
     {
-      "id": "d5538de9-76d3-4d2e-baf9-6de547cddb5b",
+      "id": "09b32484-5afd-553e-a082-2a565f4201a4",
       "name": "To intake payload",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -84,7 +88,7 @@
       }
     },
     {
-      "id": "73a48690-3686-4972-bd3d-3c07b212c8b0",
+      "id": "2285c824-0013-5a6c-8f61-60a48aa1acdf",
       "name": "Hand off to Intake",
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
@@ -114,7 +118,7 @@
       }
     },
     {
-      "id": "22e982de-a1d3-476f-a67a-c5c958c3be19",
+      "id": "0f285c64-6b8c-5847-b9aa-dfc9062711e0",
       "name": "Note · LIA · Form",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -123,7 +127,7 @@
         -220
       ],
       "parameters": {
-        "content": "## LIA · Form\nHosted n8n form for demos and landing pages. Hands the submission to **LIA · Intake** (same pipeline as the webhook) and shows the thank-you page immediately.",
+        "content": "## LIA · Form\nHosted n8n form for demos and landing pages. Hands the submission to **LIA · Intake** (same pipeline as the webhook: honeypot, rate limit per email, spam rules) and shows the thank-you page immediately.",
         "width": 600,
         "height": 150,
         "color": 4
