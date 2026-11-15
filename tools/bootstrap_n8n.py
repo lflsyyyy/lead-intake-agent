@@ -31,14 +31,13 @@ class Session:
         req = urllib.request.Request(self.base + path, data=data, method=method, headers=h)
         try:
             with self.opener.open(req, timeout=30) as r:
-                raw = r.read()
-                return r.status, (json.loads(raw) if raw else {})
+                code, raw = r.status, r.read()
         except urllib.error.HTTPError as e:
-            raw = e.read()
-            try:
-                return e.code, json.loads(raw)
-            except ValueError:
-                return e.code, {"raw": raw[:300].decode("utf8", "replace")}
+            code, raw = e.code, e.read()
+        try:                                    # n8n answers 200 with an HTML stub while it is still starting
+            return code, (json.loads(raw) if raw else {})
+        except ValueError:
+            return code, {"raw": raw[:300].decode("utf8", "replace")}
 
 
 def key_works(base, key):
