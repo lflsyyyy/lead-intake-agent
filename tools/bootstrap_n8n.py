@@ -67,8 +67,11 @@ def bootstrap():
         raise SystemExit("set N8N_OWNER_PASSWORD (demo stack only)")
     s = Session(base)
     code, res = 0, {}
-    for _ in range(60):                         # a fresh container needs a few seconds before it answers
-        code, res = s("GET", "/rest/settings")
+    for _ in range(90):                         # a fresh container needs a few seconds before it answers
+        try:
+            code, res = s("GET", "/rest/settings")
+        except (urllib.error.URLError, OSError):  # refused, or reset by Docker's port proxy while n8n starts
+            code, res = 0, {}
         if code == 200 and isinstance(res.get("data"), dict):
             break
         time.sleep(2)
