@@ -1,0 +1,62 @@
+# One-command demo stack, no real keys needed:
+#   docker compose up -d
+#   python tools/build.py --target docker          # owner + API key, credentials, tables, workflows
+#   python tools/send_samples.py --target docker   # sample leads end to end
+# n8n         http://localhost:5678   (login: see docker.env)
+# Mailpit     http://localhost:8025   (every email the pipeline sends)
+# mock        http://localhost:8090/_state   (HubSpot, Telegram and LLM stand-ins, what they received)
+# Real providers: point the URLs and keys in your env file at them (see README, "Run it").
+name: lead-intake-agent
+
+services:
+  n8n:
+    image: n8nio/n8n:2.47.5
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${N8N_PORT:-5678}:5678"
+    environment:
+      N8N_HOST: localhost
+      N8N_PORT: "5678"
+      N8N_PROTOCOL: http
+      WEBHOOK_URL: http://localhost:${N8N_PORT:-5678}/
+      N8N_SECURE_COOKIE: "false"
+      GENERIC_TIMEZONE: UTC
+      TZ: UTC
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_RUNNERS_ENABLED: "true"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "true"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      mock:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+
+  mock:
+    build: ./mock
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${MOCK_PORT:-8090}:8090"
+    environment:
+      PORT: "8090"
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      MOCK_QUIET: "1"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8090/health', timeout=2)"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  mailpit:
+    image: axllent/mailpit:v1.32.0
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${MAILPIT_PORT:-8025}:8025"
+
+volumes:
+  n8n_data:
